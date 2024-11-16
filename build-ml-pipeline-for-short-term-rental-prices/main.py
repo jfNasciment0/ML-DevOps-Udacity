@@ -6,6 +6,8 @@ import os
 import wandb
 import hydra
 from omegaconf import DictConfig
+import subprocess
+
 
 _steps = [
     "download",
@@ -22,7 +24,8 @@ _steps = [
 os.environ["HYDRA_FULL_ERROR"] = '1'
 
 # This automatically reads in the configuration
-@hydra.main(config_name='config')
+# @hydra.main(config_name='config')
+@hydra.main(config_name="config", version_base="1.1", config_path=".")
 def go(config: DictConfig):
 
     # Setup the wandb experiment. All runs will be grouped under this name
@@ -38,19 +41,27 @@ def go(config: DictConfig):
 
         if "download" in active_steps:
             # Download file and load in W&B
-            print(config['main'])
-            _ = mlflow.run(
-                f"{config['main']['components_repository']}/get_data",
-                "main",
-                version='main',
-                env_manager="conda",
-                parameters={
-                    "sample": config["etl"]["sample"],
-                    "artifact_name": "sample.csv",
-                    "artifact_type": "raw_data",
-                    "artifact_description": "Raw file as downloaded"
-                },
-            )
+            # _ = mlflow.run(
+            #     f"{config['main']['components_repository']}/get_data",
+            #     "main",
+            #     version='main',
+            #     env_manager="conda",
+            #     parameters={
+            #         "sample": config["etl"]["sample"],
+            #         "artifact_name": "sample.csv",
+            #         "artifact_type": "raw_data",
+            #         "artifact_description": "Raw file as downloaded"
+            #     },
+            # )
+            command = [
+                "python", os.path.join(hydra.utils.get_original_cwd(), "components/get_data/", "manual.py"),
+                "--sample", config["etl"]["sample"],
+                "--artifact_name", "sample.csv",
+                "--artifact_type", "raw_data",
+                "--artifact_description", "Raw file as downloaded"
+            ]
+            # Run the command using subprocess
+            subprocess.run(command, check=True)
 
         if "basic_cleaning" in active_steps:
             _ = mlflow.run(

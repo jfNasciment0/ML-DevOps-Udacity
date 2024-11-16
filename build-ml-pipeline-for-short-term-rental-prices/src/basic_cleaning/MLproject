@@ -30,4 +30,4 @@ entry_points:
         type: float
 
     command: >-
-        python main.py  --artifact {artifact}  --artifact_output {artifact_output}  --artifact_output_type {artifact_output_type}  --artifact_output_description {artifact_output_description}  --mininum_price {mininum_price}  --maximum_price {maximum_price} 
+        python main.py  --artifact_input {artifact_input}  --artifact_output {artifact_output}  --artifact_output_type {artifact_output_type}  --artifact_output_description {artifact_output_description}  --min_price {min_price}  --max_price {max_price} 

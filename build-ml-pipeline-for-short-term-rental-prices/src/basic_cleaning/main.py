@@ -14,16 +14,21 @@ logger = logging.getLogger()
 
 
 def clean(args):
-    run_wandb = wandb.init(job_type="basic_cleaning")
+    run_wandb = wandb.init(
+        project='nyc_airbnb',
+        group='basic_cleaning',
+        job_type="basic_cleaning" 
+    )
     run_wandb.config.update(args)
 
     logger.info("Downloading Artifact")
-    artifact_path = run_wandb.use_artifact(args.input_artifact).file()
+    artifact_path = run_wandb.use_artifact(args.artifact_input).file()
+    # local_path = wandb.use_artifact('sample.csv:latest').file()
     df_artic = pd.read_csv(artifact_path)
 
     # Drop outliers
     logger.info("Dropping outliers")
-    idx = df_artic['price'].between(args.min_price, args.max_price)
+    idx = df_artic['price'].between(float(args.min_price), float(args.max_price))
     df_artic = df_artic[idx].copy()
 
     # Convert last_review to datetime
@@ -40,9 +45,9 @@ def clean(args):
     df_artic.to_csv(file_name, index=False)
 
     artifact = wandb.Artifact(
-        args.output_artifact,
-        type=args.output_type,
-        description=args.output_description,
+        args.artifact_output,
+        type=args.artifact_output_type,
+        description=args.artifact_output_description,
     )
     artifact.add_file(file_name)
 
