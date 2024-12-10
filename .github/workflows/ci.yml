@@ -38,4 +38,4 @@ jobs:
       run: uvicorn main:app &
     - name: Test with pytest
       run: |
-        pytest -vv
+        cd fast-api-c3-starter-code/starter/ && pytest -vv
