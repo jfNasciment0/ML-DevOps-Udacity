@@ -4,6 +4,7 @@ author: Jefferson
 Date: Dec. 10th 2024
 """
 # Put the code for your API here.
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
@@ -33,8 +34,8 @@ class InputData(BaseModel):
     hours_per_week: int
     native_country: str
 
-    class Config:
-        schema_extra = {
+    class ConfigDict:
+        json_schema_extra = {
             "example": {
                 "age": 20,
                 "workclass": "Private",
@@ -59,8 +60,10 @@ app = FastAPI(title="Inference API", description="An API that takes a sample and
 
 
 # load model artifacts on startup of the application to reduce latency
-@app.on_event("startup")
-async def startup_event():
+# @app.on_event("startup")
+# async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     global model, encoder, lb
     # if saved model exits, load the model from disk
     if os.path.isfile(os.path.join(model_dir, filename[0])):

@@ -9,11 +9,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.exceptions import NotFittedError
 
-from ml.model import (
+from starter.ml.model import (
     inference,
     compute_model_metrics
 )  # NOQA: E401
-from ml.data import process_data
+from starter.ml.data import process_data
 
 
 """

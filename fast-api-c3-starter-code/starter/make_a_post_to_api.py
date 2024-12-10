@@ -8,7 +8,7 @@ import requests
 import json
 
 url = "https://ml-devops-udacity.onrender.com/inference/"
-
+# url = "http://localhost:8000/inference/"
 
 # explicit the sample to perform inference on
 sample =  { 

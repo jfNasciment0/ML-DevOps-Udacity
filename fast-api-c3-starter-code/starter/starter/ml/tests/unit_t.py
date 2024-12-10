@@ -2,9 +2,9 @@ import pytest
 import pandas as pd
 import joblib
 import numpy as np
-from model import train_model, compute_model_metrics, inference
+from starter.ml.model import train_model, compute_model_metrics, inference
 from sklearn.model_selection import train_test_split
-from starter.starter.ml.data import process_data  # Assuming process_data is defined here
+from starter.ml.data import process_data  # Assuming process_data is defined here
 
 # Path to the CSV file for testing
 DATA_PATH = "../data/census.csv"
