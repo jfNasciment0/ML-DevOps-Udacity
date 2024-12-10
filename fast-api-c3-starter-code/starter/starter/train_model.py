@@ -1,6 +1,5 @@
 # Script to train machine learning model.
-import os, pickle
-import joblib
+import os, pickle  # NOQA: E401
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from ml.data import process_data
@@ -8,11 +7,7 @@ from ml.data import process_data
 import logging
 
 # Add the necessary imports for the starter code.
-from ml.model import (
-    train_model,
-    compute_model_metrics,
-    inference
-)
+from ml.model import train_model, compute_model_metrics, inference
 
 # Initialize logging
 logging.basicConfig(filename="fas.log", level=logging.INFO, filemode="a", format="%(name)s - %(levelname)s - %(message)s")
@@ -57,17 +52,17 @@ model = train_model(X_train, y_train)
 
 # if saved model exits, load the model from disk
 if os.path.isfile(os.path.join(model_dir, "trained_model.pkl")):
-        model = pickle.load(open(os.path.join(model_dir, "trained_model.pkl"), 'rb'))
-        encoder = pickle.load(open(os.path.join(model_dir, "encoder.pkl"), 'rb'))
-        lb = pickle.load(open(os.path.join(model_dir, "labelizer.pkl"), 'rb'))
+    model = pickle.load(open(os.path.join(model_dir, "trained_model.pkl"), "rb"))
+    encoder = pickle.load(open(os.path.join(model_dir, "encoder.pkl"), "rb"))
+    lb = pickle.load(open(os.path.join(model_dir, "labelizer.pkl"), "rb"))
 
 # Else Train and save a model.
 else:
     model = train_model(X_train, y_train)
     # save model  to disk in ./model folder
-    pickle.dump(model, open(os.path.join(model_dir, "trained_model.pkl"), 'wb'))
-    pickle.dump(encoder, open(os.path.join(model_dir, "encoder.pkl"), 'wb'))
-    pickle.dump(lb, open(os.path.join(model_dir, "labelizer.pkl"), 'wb'))
+    pickle.dump(model, open(os.path.join(model_dir, "trained_model.pkl"), "wb"))
+    pickle.dump(encoder, open(os.path.join(model_dir, "encoder.pkl"), "wb"))
+    pickle.dump(lb, open(os.path.join(model_dir, "labelizer.pkl"), "wb"))
     logging.info(f"Model saved to disk: {model_dir}")
 
 logging.info(f"The Model was saved: {model_dir}")

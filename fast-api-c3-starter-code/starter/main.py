@@ -3,6 +3,7 @@ Main API model
 author: Jefferson
 Date: Dec. 10th 2024
 """
+
 # Put the code for your API here.
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
