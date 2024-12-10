@@ -1,5 +1,5 @@
 # Script to train machine learning model.
-import os
+import os, pickle
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -51,9 +51,25 @@ X_test, y_test, encoder, lb = process_data(
 model = train_model(X_train, y_train)
 
 # Save the trained model, encoder, and labelizer to the specified paths
-joblib.dump(model, os.path.join(model_dir, "trained_model.pkl"))
-joblib.dump(encoder, os.path.join(model_dir, "encoder.pkl"))
-joblib.dump(lb, os.path.join(model_dir, "labelizer.pkl"))
+# joblib.dump(model, os.path.join(model_dir, "trained_model.pkl"))
+# joblib.dump(encoder, os.path.join(model_dir, "encoder.pkl"))
+# joblib.dump(lb, os.path.join(model_dir, "labelizer.pkl"))
+
+# if saved model exits, load the model from disk
+if os.path.isfile(os.path.join(model_dir, "trained_model.pkl")):
+        model = pickle.load(open(os.path.join(model_dir, "trained_model.pkl"), 'rb'))
+        encoder = pickle.load(open(os.path.join(model_dir, "encoder.pkl"), 'rb'))
+        lb = pickle.load(open(os.path.join(model_dir, "labelizer.pkl"), 'rb'))
+
+# Else Train and save a model.
+else:
+    model = train_model(X_train, y_train)
+    # save model  to disk in ./model folder
+    pickle.dump(model, open(os.path.join(model_dir, "trained_model.pkl"), 'wb'))
+    pickle.dump(encoder, open(os.path.join(model_dir, "encoder.pkl"), 'wb'))
+    pickle.dump(lb, open(os.path.join(model_dir, "labelizer.pkl"), 'wb'))
+    logging.info(f"Model saved to disk: {model_dir}")
+
 logging.info(f"The Model was saved: {model_dir}")
 
 inference_predictions = inference(model, X_test)
