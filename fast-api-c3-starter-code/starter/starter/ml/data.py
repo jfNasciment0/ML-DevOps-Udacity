@@ -43,6 +43,7 @@ def process_data(X, categorical_features=[], label=None, training=True, encoder=
     """
 
     if label is not None:
+        print(f"ERRRO: X: {X.columns}")
         y = X[label]
         X = X.drop([label], axis=1)
     else:

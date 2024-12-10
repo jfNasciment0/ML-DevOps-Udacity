@@ -3,12 +3,16 @@ import os
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from starter.starter.ml.data import process_data
+from ml.data import process_data
 
 import logging
 
 # Add the necessary imports for the starter code.
-from model import train_model, compute_model_metrics, inference
+from ml.model import (
+    train_model,
+    compute_model_metrics,
+    inference
+)
 
 # Initialize logging
 logging.basicConfig(filename="fas.log", level=logging.INFO, filemode="a", format="%(name)s - %(levelname)s - %(message)s")

@@ -1,0 +1,3 @@
+root - INFO - The Model was saved: ../model/
+root - INFO - Classification target labels: ['<=50K', '>50K']
+root - INFO - Precision:0.774, Recall:0.613, Fbeta:0.684
